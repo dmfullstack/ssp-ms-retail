@@ -10,13 +10,13 @@ public class CreateStore {
 
     @NotEmpty(message = "Name is empty")
     @ApiModelProperty("The store's name")
-    private String storeName;
+    private String name;
 
-    public String getStoreName() {
-        return storeName;
+    public String getName() {
+        return name;
     }
 
-    public void setStoreName(String storeName) {
-        this.storeName = storeName;
+    public void setName(String name) {
+        this.name = name;
     }
 }

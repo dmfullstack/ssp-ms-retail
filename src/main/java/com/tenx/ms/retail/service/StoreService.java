@@ -18,7 +18,7 @@ public class StoreService {
 
     private StoreEntity convertToEntity(CreateStore store) {
         StoreEntity storeEntity = new StoreEntity();
-        storeEntity.setStoreName(store.getStoreName());
+        storeEntity.setName(store.getName());
 
         return storeEntity;
     }

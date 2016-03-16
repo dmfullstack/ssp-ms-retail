@@ -38,7 +38,7 @@ public class StoreController {
     })
     @RequestMapping(method = RequestMethod.POST)
     public ResourceCreated<Long> createStore(@Validated @RequestBody CreateStore store, HttpServletRequest request) {
-        LOGGER.info("Creating a new Store: {}", store.getStoreName());
+        LOGGER.info("Creating a new Store: {}", store.getName());
 
         return new ResourceCreated<>(storeService.createStore(store));
     }
