@@ -1,4 +1,4 @@
-package com.tenx.ms.retail.rest.dto;
+package com.tenx.ms.retail.store.rest.dto;
 
 import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.validator.constraints.NotEmpty;

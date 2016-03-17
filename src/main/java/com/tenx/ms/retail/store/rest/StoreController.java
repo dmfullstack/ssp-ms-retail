@@ -1,11 +1,11 @@
-package com.tenx.ms.retail.rest;
+package com.tenx.ms.retail.store.rest;
 
 import com.tenx.ms.commons.rest.RestConstants;
 import com.tenx.ms.commons.rest.dto.Paginated;
 import com.tenx.ms.commons.rest.dto.ResourceCreated;
-import com.tenx.ms.retail.rest.dto.CreateStore;
-import com.tenx.ms.retail.rest.dto.Store;
-import com.tenx.ms.retail.service.StoreService;
+import com.tenx.ms.retail.store.rest.dto.CreateStore;
+import com.tenx.ms.retail.store.rest.dto.Store;
+import com.tenx.ms.retail.store.service.StoreService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -74,5 +74,19 @@ public class StoreController {
         LOGGER.debug("Fetching store by id {}", storeId);
 
         return storeService.getStoreById(storeId).get();
+    }
+
+    @ApiOperation(value = "Get store details by store name")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successful retrieval of store detail"),
+            @ApiResponse(code = 404, message = "Store with that given name does not exist"),
+            @ApiResponse(code = 500, message = "Error retrieving store details")
+    })
+    @RequestMapping(value = {"/name/{storeName}"}, method = RequestMethod.GET)
+    public Store getStoreByName(@ApiParam(name = "storeName", value = "The store name") @PathVariable String storeName) {
+
+        LOGGER.debug("Fetching store by name {}", storeName);
+
+        return storeService.getStoreByName(storeName).get();
     }
 }

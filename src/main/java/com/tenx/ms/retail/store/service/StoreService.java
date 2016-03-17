@@ -1,10 +1,10 @@
-package com.tenx.ms.retail.service;
+package com.tenx.ms.retail.store.service;
 
 import com.tenx.ms.commons.rest.dto.Paginated;
-import com.tenx.ms.retail.domain.StoreEntity;
-import com.tenx.ms.retail.repository.StoreRepository;
-import com.tenx.ms.retail.rest.dto.CreateStore;
-import com.tenx.ms.retail.rest.dto.Store;
+import com.tenx.ms.retail.store.domain.StoreEntity;
+import com.tenx.ms.retail.store.repository.StoreRepository;
+import com.tenx.ms.retail.store.rest.dto.CreateStore;
+import com.tenx.ms.retail.store.rest.dto.Store;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -43,6 +43,11 @@ public class StoreService {
     public Optional<Store> getStoreById(Long storeId) {
         return storeRepository.findOneByStoreId(storeId)
                 .map(store->convertToDTO(store));
+    }
+
+    public Optional<Store> getStoreByName(String storeName) {
+        return storeRepository.findOneByName(storeName)
+                .map(store -> convertToDTO(store));
     }
 
     private StoreEntity convertToEntity(CreateStore store) {
