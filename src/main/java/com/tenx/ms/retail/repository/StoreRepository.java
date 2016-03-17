@@ -8,5 +8,7 @@ import java.util.Optional;
 @org.springframework.stereotype.Repository
 public interface StoreRepository extends JpaRepository<StoreEntity, Long> {
 
+    Optional<StoreEntity> findOneByStoreId(final Long storeId);
+
     Optional<StoreEntity> findOneByName(final String name);
 }

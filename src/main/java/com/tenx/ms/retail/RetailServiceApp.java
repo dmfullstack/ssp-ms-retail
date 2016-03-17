@@ -21,7 +21,7 @@ import java.util.Arrays;
 @Configuration
 @EnableAutoConfiguration
 @EnableDiscoveryClient
-@ComponentScan(basePackages = {"com.auction.ms.commons", "com.tenx.ms.retail"})
+@ComponentScan(basePackages = {"com.tenx.ms.commons", "com.tenx.ms.retail"})
 public class RetailServiceApp {
 
     private static final Logger LOG = LoggerFactory.getLogger(RetailServiceApp.class);
