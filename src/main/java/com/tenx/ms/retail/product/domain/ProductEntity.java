@@ -28,7 +28,7 @@ public class ProductEntity {
     @NotNull
     @ManyToMany
     @JoinTable(
-            name = "stocks",
+            name = "product_stores",
             joinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "product_id")},
             inverseJoinColumns = {@JoinColumn(name = "store_id", referencedColumnName = "store_id")})
     private Set<StoreEntity> stores = new HashSet<>();
