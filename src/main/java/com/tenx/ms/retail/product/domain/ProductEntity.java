@@ -32,6 +32,7 @@ public class ProductEntity {
     @Column(name = "store_id")
     private Long storeId;
 
+    //TODO: make name unique?
     @NotNull
     @Size(max = 50)
     @Column(name = "name", length = 50)

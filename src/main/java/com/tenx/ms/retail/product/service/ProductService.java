@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,6 +40,16 @@ public class ProductService {
                 .collect(Collectors.toList());
 
         return Paginated.wrap(page, products, baseLinkPath);
+    }
+
+    public Optional<Product> getStoreProductById(Long storeId, Long productId) {
+        return productRepository.findOneByStoreIdAndProductId(storeId, productId)
+                .map(product->convertToDTO(product));
+    }
+
+    public Optional<Product> getStoreProductByName(Long storeId, String name) {
+        return productRepository.findOneByStoreIdAndName(storeId, name)
+                .map(product->convertToDTO(product));
     }
 
     private ProductEntity convertToEntity(CreateProduct product) {

@@ -59,6 +59,37 @@ public class ProductController {
 
         LOGGER.debug("Fetching all products for store id {} : {}", storeId, pageable);
 
-        return productService.getStoreProducts(storeId, pageable, RestConstants.VERSION_ONE + "/retail");
+        return productService.getStoreProducts(storeId, pageable, RestConstants.VERSION_ONE + "/products");
+    }
+
+    @ApiOperation(value = "Get product details by product id for a store")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successful retrieval of product detail"),
+            @ApiResponse(code = 404, message = "Product with that given id does not exist"),
+            @ApiResponse(code = 500, message = "Error retrieving product details")
+    })
+
+    @RequestMapping(value = {"/store/{storeId:\\d+}/product/{productId:\\d+}"}, method = RequestMethod.GET)
+    public Product getStoreProductById(@ApiParam(name = "storeId", value = "The store id") @PathVariable long storeId,
+                                     @ApiParam(name = "productId", value = "The product id") @PathVariable long productId) {
+
+        LOGGER.debug("Fetching product by id {} for store {}", productId, storeId);
+
+        return productService.getStoreProductById(productId, storeId).get();
+    }
+
+    @ApiOperation(value = "Get product details by product name for a store")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successful retrieval of product detail"),
+            @ApiResponse(code = 404, message = "Product with that given name does not exist"),
+            @ApiResponse(code = 500, message = "Error retrieving product details")
+    })
+    @RequestMapping(value = {"/store/{storeId:\\d+}/product/{productName:.*[a-zA-Z].*}"}, method = RequestMethod.GET)
+    public Product getStoreProductByName(@ApiParam(name = "storeId", value = "The store id") @PathVariable long storeId,
+                                       @ApiParam(name = "productName", value = "The product name") @PathVariable String productName) {
+
+        LOGGER.debug("Fetching product by name {} for store {}", productName, storeId);
+
+        return productService.getStoreProductByName(storeId, productName).get();
     }
 }

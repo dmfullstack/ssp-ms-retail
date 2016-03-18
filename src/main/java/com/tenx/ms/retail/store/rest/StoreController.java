@@ -59,7 +59,7 @@ public class StoreController {
 
         LOGGER.debug("Fetching all stores: {}", pageable);
 
-        return storeService.getAllStores(pageable, RestConstants.VERSION_ONE + "/retail");
+        return storeService.getAllStores(pageable, RestConstants.VERSION_ONE + "/stores");
     }
 
     @ApiOperation(value = "Get store details by store id")
