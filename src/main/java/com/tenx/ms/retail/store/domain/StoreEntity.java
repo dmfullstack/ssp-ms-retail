@@ -18,7 +18,7 @@ public class StoreEntity {
     @Column(name = "store_id")
     private Long storeId;
 
-    @Size(max=50)
+    @Size(max=50) //for validation
     @Column(name = "name", length = 50, unique = true)
     @NotNull
     private String name;

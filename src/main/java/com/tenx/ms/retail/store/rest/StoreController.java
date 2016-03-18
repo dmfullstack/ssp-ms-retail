@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 
-@Api(value = "retail", description = "Store API")
+@Api(value = "stores", description = "Store API")
 @RestController("storeControllerV1")
 @RequestMapping(RestConstants.VERSION_ONE + "/stores")
 public class StoreController {
