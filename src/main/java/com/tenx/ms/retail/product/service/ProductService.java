@@ -5,13 +5,17 @@ import com.tenx.ms.retail.product.domain.ProductEntity;
 import com.tenx.ms.retail.product.repository.ProductRepository;
 import com.tenx.ms.retail.product.rest.dto.CreateProduct;
 import com.tenx.ms.retail.product.rest.dto.Product;
+import com.tenx.ms.retail.store.domain.StoreEntity;
+import com.tenx.ms.retail.store.repository.StoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -19,6 +23,9 @@ public class ProductService {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private StoreRepository storeRepository;
 
     public Long createProduct(CreateProduct product) {
 
@@ -33,7 +40,7 @@ public class ProductService {
      * @return Paginated Iterable of products
      */
     public Paginated<Product> getStoreProducts(Long storeId, Pageable pageable, String baseLinkPath) {
-        Page<ProductEntity> page = productRepository.findByStoreId(storeId, pageable);
+        Page<ProductEntity> page = productRepository.findByStoresStoreId(storeId, pageable);
 
         List<Product> products = page.getContent().stream()
                 .map(product -> convertToDTO(product))
@@ -43,12 +50,12 @@ public class ProductService {
     }
 
     public Optional<Product> getStoreProductById(Long storeId, Long productId) {
-        return productRepository.findOneByStoreIdAndProductId(storeId, productId)
+        return productRepository.findByStoresStoreIdAndProductId(storeId, productId)
                 .map(product->convertToDTO(product));
     }
 
     public Optional<Product> getStoreProductByName(Long storeId, String name) {
-        return productRepository.findOneByStoreIdAndName(storeId, name)
+        return productRepository.findByStoresStoreIdAndName(storeId, name)
                 .map(product->convertToDTO(product));
     }
 
@@ -56,7 +63,10 @@ public class ProductService {
 
         ProductEntity productEntity = new ProductEntity();
         productEntity.setName(product.getName());
-        productEntity.setStoreId(product.getStoreId());
+
+        Set<StoreEntity> stores = new HashSet<>();
+        stores.add(storeRepository.findOneByStoreId(product.getStoreId()).get());
+        productEntity.setStores(stores);
         productEntity.setDescription(product.getDescription());
         productEntity.setPrice(product.getPrice());
         productEntity.setSku(product.getSku());
@@ -71,7 +81,6 @@ public class ProductService {
         p.setSku(product.getSku());
         p.setPrice(product.getPrice());
         p.setName(product.getName());
-        p.setStoreId(product.getStoreId());
         p.setProductId(product.getProductId());
 
         return p;

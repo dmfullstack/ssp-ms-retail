@@ -54,7 +54,7 @@ public class ProductController {
             @ApiResponse(code = 200, message = "Successful retrieval of products"),
             @ApiResponse(code = 500, message = "Error retrieving list of products")
     })
-    @RequestMapping(value = {"/{storeId:\\d+}"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/store/{storeId:\\d+}"}, method = RequestMethod.GET)
     public Paginated<Product> getStoreProducts(@ApiParam(name = "storeId", value = "The store id") @PathVariable long storeId, Pageable pageable) {
 
         LOGGER.debug("Fetching all products for store id {} : {}", storeId, pageable);
@@ -75,7 +75,7 @@ public class ProductController {
 
         LOGGER.debug("Fetching product by id {} for store {}", productId, storeId);
 
-        return productService.getStoreProductById(productId, storeId).get();
+        return productService.getStoreProductById(storeId, productId).get();
     }
 
     @ApiOperation(value = "Get product details by product name for a store")

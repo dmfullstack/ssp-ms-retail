@@ -11,10 +11,12 @@ import java.util.Optional;
 @Repository
 public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 
-    Page<ProductEntity> findByStoreId(final Long storeId, Pageable pageable);
+    Page<ProductEntity> findByStoresStoreId(final Long storeId, Pageable pageable);
 
-    Optional<ProductEntity> findOneByStoreIdAndProductId(final Long storeId, final Long productId);
+    Optional<ProductEntity> findByStoresStoreIdAndProductId(final Long storeId, final Long productId);
 
-    Optional<ProductEntity> findOneByStoreIdAndName(final Long storeId, final String name);
+    Optional<ProductEntity> findByStoresStoreIdAndName(final Long storeId, final String name);
+
+
 
 }
