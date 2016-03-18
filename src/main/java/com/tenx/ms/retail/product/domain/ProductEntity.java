@@ -32,20 +32,18 @@ public class ProductEntity {
     @Column(name = "store_id")
     private Long storeId;
 
-    //TODO: make name unique?
     @NotNull
     @Size(max = 50)
-    @Column(name = "name", length = 50)
+    @Column(name = "name", length = 50, unique = true)
     private String name;
 
     @Size(max = 100)
     @Column(name = "description", length = 100)
     private String description;
 
-    //TODO: make sku unique?
     @NotNull
     @Size(min = 5, max = 10)
-    @Column(name = "sku", length = 10)
+    @Column(name = "sku", length = 10, unique = true)
     private String sku;
 
     @NotNull
