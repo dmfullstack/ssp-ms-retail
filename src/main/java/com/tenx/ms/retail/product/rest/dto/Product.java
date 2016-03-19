@@ -1,12 +1,6 @@
 package com.tenx.ms.retail.product.rest.dto;
 
 import io.swagger.annotations.ApiModelProperty;
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotEmpty;
-
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 
 public class Product {
 
@@ -20,17 +14,12 @@ public class Product {
     private String name;
 
     @ApiModelProperty("The product description")
-    @Length(max = 100)
     private String description;
 
-    @NotEmpty
-    @Pattern(regexp = "[a-zA-Z0-9]{5,10}")
     @ApiModelProperty("An adhoc SKU allowing only alpha-numeric with a min length of 5 and max of 10")
     private String sku;
 
-    @NotNull
     @ApiModelProperty("The product's price")
-    @Digits(integer = 12, fraction = 2)
     private Double price;
 
     public Long getProductId() {
