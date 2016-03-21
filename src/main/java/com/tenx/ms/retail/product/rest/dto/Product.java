@@ -2,6 +2,8 @@ package com.tenx.ms.retail.product.rest.dto;
 
 import io.swagger.annotations.ApiModelProperty;
 
+import java.math.BigDecimal;
+
 public class Product {
 
     @ApiModelProperty("The product id (read-only)")
@@ -20,7 +22,7 @@ public class Product {
     private String sku;
 
     @ApiModelProperty("The product's price")
-    private Double price;
+    private BigDecimal price;
 
     public Long getProductId() {
         return productId;
@@ -62,11 +64,11 @@ public class Product {
         this.sku = sku;
     }
 
-    public Double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 }

@@ -7,6 +7,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import java.math.BigDecimal;
 
 /**
  * Represents the request payload used to create a new product
@@ -34,7 +35,7 @@ public class CreateProduct {
     @NotNull
     @ApiModelProperty("The product's price")
     @Digits(integer = 12, fraction = 2)
-    private Double price;
+    private BigDecimal price;
 
     public Long getStoreId() {
         return storeId;
@@ -68,11 +69,11 @@ public class CreateProduct {
         this.sku = sku;
     }
 
-    public Double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 }

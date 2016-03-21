@@ -13,6 +13,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,7 +29,7 @@ public class ProductEntity {
     @NotNull
     @ManyToMany
     @JoinTable(
-            name = "product_stores",
+            name = "products_stores",
             joinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "product_id")},
             inverseJoinColumns = {@JoinColumn(name = "store_id", referencedColumnName = "store_id")})
     private Set<StoreEntity> stores = new HashSet<>();
@@ -51,7 +52,7 @@ public class ProductEntity {
 
     @NotNull
     @Column(name = "price", scale = 2)
-    private Double price;
+    private BigDecimal price;
 
     public Long getProductId() {
         return productId;
@@ -93,11 +94,11 @@ public class ProductEntity {
         this.sku = sku;
     }
 
-    public Double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
