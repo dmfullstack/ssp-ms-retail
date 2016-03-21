@@ -1,6 +1,7 @@
 package com.tenx.ms.retail.order.service;
 
 import com.tenx.ms.commons.rest.dto.Paginated;
+import com.tenx.ms.retail.order.constants.OrderStatusEnum;
 import com.tenx.ms.retail.order.domain.OrderEntity;
 import com.tenx.ms.retail.order.domain.OrderProductEntity;
 import com.tenx.ms.retail.order.repository.OrderProductRepository;
@@ -8,8 +9,11 @@ import com.tenx.ms.retail.order.repository.OrderRepository;
 import com.tenx.ms.retail.order.rest.dto.CreateOrder;
 import com.tenx.ms.retail.order.rest.dto.Order;
 import com.tenx.ms.retail.order.rest.dto.OrderProduct;
+import com.tenx.ms.retail.order.rest.dto.OrderStatus;
 import com.tenx.ms.retail.product.domain.ProductEntity;
 import com.tenx.ms.retail.product.repository.ProductRepository;
+import com.tenx.ms.retail.stock.domain.StockEntity;
+import com.tenx.ms.retail.stock.repository.StockRespository;
 import com.tenx.ms.retail.store.domain.StoreEntity;
 import com.tenx.ms.retail.store.repository.StoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +24,7 @@ import org.springframework.stereotype.Service;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -38,13 +43,45 @@ public class OrderService {
     @Autowired
     private OrderProductRepository orderProductRepository;
 
-    public Long createOrder(CreateOrder order) {
+    @Autowired
+    private StockRespository stockRespository;
+
+    public OrderStatus createOrder(CreateOrder order) {
 
         OrderEntity orderEntity = convertToEntity(order);
         Long id = orderRepository.save(orderEntity).getOrderId();
         orderProductRepository.save(orderEntity.getOrderProducts());
 
-        return id;
+        OrderStatus status = new OrderStatus();
+        status.setStatus(OrderStatusEnum.PACKING);
+        status.setOrderId(id);
+
+        Optional<StockEntity> stockEntity;
+        StockEntity stock;
+        int count;
+        Long productId;
+        for(OrderProductEntity o : orderEntity.getOrderProducts()) {
+            stockEntity = stockRespository.findOneByStoreStoreIdAndProductProductId(order.getStoreId(), o.getProduct().getProductId());
+
+            if(stockEntity.isPresent()) {
+                stock = stockEntity.get();
+                productId = o.getProduct().getProductId();
+
+                if(o.getCount() > stock.getCount()) {
+                    count = 0;
+                    status.getOrderedProducts().add(new OrderProduct(productId, stock.getCount()));
+                    status.getBackorderedProducts().add(new OrderProduct(productId, o.getCount() - stock.getCount()));
+                } else {
+                    count = stock.getCount() - o.getCount();
+                    status.getOrderedProducts().add(new OrderProduct(productId, o.getCount()));
+                }
+                stock.setCount(count);
+                stockRespository.save(stock);
+            }
+
+        }
+
+        return status;
     }
 
     /**

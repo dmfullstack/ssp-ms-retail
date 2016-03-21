@@ -2,9 +2,9 @@ package com.tenx.ms.retail.order.rest;
 
 import com.tenx.ms.commons.rest.RestConstants;
 import com.tenx.ms.commons.rest.dto.Paginated;
-import com.tenx.ms.commons.rest.dto.ResourceCreated;
 import com.tenx.ms.retail.order.rest.dto.CreateOrder;
 import com.tenx.ms.retail.order.rest.dto.Order;
+import com.tenx.ms.retail.order.rest.dto.OrderStatus;
 import com.tenx.ms.retail.order.service.OrderService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -41,11 +41,11 @@ public class OrderController {
             @ApiResponse(code = 500, message = "Error creating order")
     })
     @RequestMapping(method = RequestMethod.POST)
-    public ResourceCreated<Long> createOrder(@Validated @RequestBody CreateOrder order, HttpServletRequest request) {
+    public OrderStatus createOrder(@Validated @RequestBody CreateOrder order, HttpServletRequest request) {
 
         LOGGER.debug("Creating a new Order: {}", order);
 
-        return new ResourceCreated<>(orderService.createOrder(order));
+        return orderService.createOrder(order);
     }
 
     @ApiOperation(value = "Get list of orders for store by store id")
