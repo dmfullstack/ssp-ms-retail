@@ -20,6 +20,9 @@ public class OrderStatus {
     @ApiModelProperty("Back ordered products")
     private List<OrderProduct> backorderedProducts = new ArrayList<>();
 
+    @ApiModelProperty("Invalid products")
+    private List<OrderProduct> invalidProducts = new ArrayList<>();
+
     public Long getOrderId() {
         return orderId;
     }
@@ -50,5 +53,13 @@ public class OrderStatus {
 
     public void setBackorderedProducts(List<OrderProduct> backorderedProducts) {
         this.backorderedProducts = backorderedProducts;
+    }
+
+    public List<OrderProduct> getInvalidProducts() {
+        return invalidProducts;
+    }
+
+    public void setInvalidProducts(List<OrderProduct> invalidProducts) {
+        this.invalidProducts = invalidProducts;
     }
 }

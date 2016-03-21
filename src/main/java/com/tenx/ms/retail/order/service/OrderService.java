@@ -64,9 +64,9 @@ public class OrderService {
         for(OrderProductEntity o : orderEntity.getOrderProducts()) {
             stockEntity = stockRespository.findOneByStoreStoreIdAndProductProductId(order.getStoreId(), o.getProduct().getProductId());
 
+            productId = o.getProduct().getProductId();
             if(stockEntity.isPresent()) {
                 stock = stockEntity.get();
-                productId = o.getProduct().getProductId();
 
                 if(o.getCount() > stock.getCount()) {
                     count = 0;
@@ -78,6 +78,14 @@ public class OrderService {
                 }
                 stock.setCount(count);
                 stockRespository.save(stock);
+            } else {
+                //check valid product
+                Optional<ProductEntity> productEntity = productRepository.findByStoresStoreIdAndProductId(order.getStoreId(), productId);
+                if(productEntity.isPresent()) {
+                    status.getBackorderedProducts().add(new OrderProduct(productId, o.getCount()));
+                } else {
+                    status.getInvalidProducts().add(new OrderProduct(productId, o.getCount()));
+                }
             }
 
         }
